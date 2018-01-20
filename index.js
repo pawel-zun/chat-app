@@ -6,12 +6,41 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-app.use(express.static(__dirname + '/public'));
+const UsersService = require('./UsersService');
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+const userService = new UsersService();
+
+app.use(express.static(`${__dirname}/public`));
+
+app.get('/', (req, res) => {
+  res.sendFile(`${__dirname}/index.html`);
 });
 
-server.listen(3000, function() {
+io.on('connection', (socket) => {
+  socket.on('join', (name) => {
+    userService.addUser({
+      id: socket.id,
+      name,
+    });
+    io.emit('update', {
+      users: userService.getAllUsers(),
+    });
+  });
+  socket.on('disconnect', () => {
+    userService.removeUser(socket.id);
+    socket.broadcast.emit('update', {
+      users: userService.getAllUsers(),
+    });
+  });
+  socket.on('message', (message) => {
+    const { name } = userService.getUserById(socket.id);
+    socket.broadcast.emit('message', {
+      text: message.text,
+      from: name,
+    });
+  });
+});
+
+server.listen(3000, () => {
   console.log('Listening on *:3000');
 });
