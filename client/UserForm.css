@@ -8,8 +8,14 @@
 
 .UserInput {
     padding: 20px;
-    font-size: 2em;
+    font-size: 1.5em;
     border: 0;
-    border-bottom: 1px solid #ccc;
-    width: 510px;
+    border-bottom: 2px solid #ccc;
+    min-width: 510px;
+    color: #00aabb;
+}
+
+.UserInput:focus {
+    outline: none;
+    border-color: #00aabb;
 }

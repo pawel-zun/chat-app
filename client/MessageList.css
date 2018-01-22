@@ -1,8 +1,45 @@
 .MessageList {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: flex-start;
     width: 75vw;
     padding: 20px;
+    box-sizing: border-box;
+}
+
+.Message {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Message__from {
+    margin-right: 25px;
+    font-weight: 700;
+    flex-basis: content;
+    max-width: 15%;
+}
+
+.Message__text {
+	position: relative;
+	background: #00aabb;
+    border-radius: .4em;
+    padding: 5px;
+}
+
+.Message__text:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-right-color: #00aabb;
+	border-left: 0;
+	border-top: 0;
+	margin-top: -5px;
+	margin-left: -10px;
 }
